@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:pokedex/app/data/helpers.dart';
 import 'package:pokedex/app/models/pokemon_model.dart';
 import 'package:pokedex/app/modules/home/views/pokemon_card.dart';
 import 'package:pokedex/app/routes/app_pages.dart';
@@ -19,35 +18,45 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        primary: true,
+        controller: controller.scrollController,
         child: Obx(
           () => controller.isLoading.value
-              ? Container(
+              ? SizedBox(
                   height: Get.height * .9,
                   child: const Center(
                     child: CupertinoActivityIndicator(),
                   ),
                 )
-              : GridView.builder(
-                  primary: false,
-                  itemCount: controller.pokemons.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(16),
-                  itemBuilder: (context, index) {
-                    List<PokemonModel> list = controller.pokemons;
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.POKEMON_DETAILS,
-                            arguments: list[index]);
+              : Column(
+                  children: [
+                    GridView.builder(
+                      primary: false,
+                      itemCount: controller.pokemons.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(16),
+                      itemBuilder: (context, index) {
+                        List<PokemonModel> list = controller.pokemons;
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.POKEMON_DETAILS,
+                                arguments: list[index]);
+                          },
+                          child: PokeMonCard(list: list, index: index),
+                        );
                       },
-                      child: PokeMonCard(list: list, index: index),
-                    );
-                  },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                  ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                      ),
+                    ),
+                    controller.isLoadingExtra.value
+                        ? const Center(
+                            child: CupertinoActivityIndicator(),
+                          )
+                        : Container()
+                  ],
                 ),
         ),
       ),

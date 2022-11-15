@@ -59,14 +59,16 @@ class PokeMonCard extends StatelessWidget {
                                   )).toList()
                         ],
                       ),
-                      Image.network(
-                        list[index]
-                            .sprites!
-                            .other!
-                            .officialArtwork!
-                            .frontDefault!,
-                        height: 100,
-                        fit: BoxFit.fill,
+                      Expanded(
+                        child: Image.network(
+                          list[index]
+                              .sprites!
+                              .other!
+                              .officialArtwork!
+                              .frontDefault!,
+                          height: 100,
+                          fit: BoxFit.fill,
+                        ),
                       )
                     ],
                   ),

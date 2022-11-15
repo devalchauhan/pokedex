@@ -25,6 +25,7 @@ class App extends StatelessWidget {
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       builder: (context, child) => AvioWrapper(
+          showConnectivityStatus: false,
           loader: const Card(
             child: Padding(
               padding: EdgeInsets.all(16.0),
